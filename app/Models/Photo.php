@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
  * 写真モデル
  *
  * このモデルは写真情報をデータベースから取得・保存するために使用します
- * モデルの作成: php artisan make:model Photo -m
+ * モデルの作成のコマンド↓
+ * php artisan make:model Photo -m
  * -m オプションでマイグレーションファイルも同時に作成されます
  */
 class Photo extends Model
