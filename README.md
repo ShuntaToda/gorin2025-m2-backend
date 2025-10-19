@@ -1,61 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 写真管理システム
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+第63回技能五輪全国大会 - ウェブデザイン職種 - モジュール2（バックエンド）
 
-## About Laravel
+Laravel 12を使用した写真管理システムです。写真のアップロード、管理、API経由での取得が可能です。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 機能
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 管理画面
+- 写真の一覧表示
+- 写真の新規登録（タイトル、撮影場所、画像、撮影日時）
+- 写真の編集
+- 写真の削除
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### API
+- `GET /api/photos` - 写真一覧を取得
+- `GET /api/photos/{id}.json` - 写真詳細を取得
 
-## Learning Laravel
+## 技術スタック
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.2+
+- Laravel 12
+- SQLite
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## セットアップ
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. 依存関係のインストール
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. 環境設定
 
-### Premium Partners
+`.env.example`をコピーして`.env`を作成し、必要な設定を行います。
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Contributing
+### 3. データベースのセットアップ
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan migrate
+```
 
-## Code of Conduct
+### 4. 開発サーバーの起動
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan serve
+npm run dev
+```
 
-## Security Vulnerabilities
+## プロジェクト構造
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### モデル
+- `app/Models/Photo.php` - 写真モデル
 
-## License
+### コントローラー
+- `app/Http/Controllers/AdminPhotoController.php` - 管理画面用コントローラー
+- `app/Http/Controllers/ApiPhotoController.php` - API用コントローラー
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### ルート
+- `routes/web.php` - 管理画面のルート定義
+- `routes/api.php` - APIのルート定義
+
+### ビュー
+- `resources/views/index.blade.php` - トップページ
+- `resources/views/admin/menu.blade.php` - 管理画面メニュー
+- `resources/views/admin/photos/` - 写真管理画面
+
+### マイグレーション
+- `database/migrations/*_create_photos_table.php` - photosテーブル作成
+- `database/migrations/*_add_metadata_to_photos_table.php` - メタデータ追加
+
+## 使い方
+
+### 管理画面にアクセス
+
+1. ブラウザで `http://localhost:8000` にアクセス
+2. 「管理画面へ」をクリック
+3. 写真管理から写真を登録・編集・削除
+
+### APIの利用
+
+```bash
+# 写真一覧を取得
+curl http://localhost:8000/api/photos
+
+# 写真詳細を取得
+curl http://localhost:8000/api/photos/1.json
+```
